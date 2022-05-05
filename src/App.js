@@ -1,6 +1,50 @@
 import React, { Component } from 'react';
 import './App.css';
+import data from './data'
+import { makeStyles } from '@material-ui/styles';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
+} from '@material-ui/core';
 
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
+
+const DataTable = ({ routes }) => {
+  const classes = useStyles()
+
+  return (
+  <TableContainer component={Paper}>
+    <Table className={classes.table}>
+      <TableHead>
+        <TableRow>
+          <TableCell>Airline</TableCell>
+          <TableCell align="right">Source</TableCell>
+          <TableCell align="right">Destination</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {routes.map(route => (
+          <TableRow key={route.airline + route.src + route.dest}>
+            <TableCell>{route.airline}</TableCell>
+            <TableCell align="right">{route.src}</TableCell>
+            <TableCell align="right">{route.dest}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+  )
+}
+ 
 const App = () => (
   <div className="app">
   <header className="header">
@@ -10,6 +54,7 @@ const App = () => (
     <p>
       Welcome to the app!
     </p>
+    <DataTable routes={data.routes}/>
   </section>
 </div>
 )
