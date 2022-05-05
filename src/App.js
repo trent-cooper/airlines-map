@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import data from './data'
 import { makeStyles } from '@material-ui/styles';
@@ -18,6 +18,8 @@ const useStyles = makeStyles({
   },
 });
 
+const { routes, getAirlineById, getAirportByCode } = data
+
 const DataTable = ({ routes }) => {
   const classes = useStyles()
 
@@ -34,9 +36,9 @@ const DataTable = ({ routes }) => {
       <TableBody>
         {routes.map(route => (
           <TableRow key={route.airline + route.src + route.dest}>
-            <TableCell>{route.airline}</TableCell>
-            <TableCell align="right">{route.src}</TableCell>
-            <TableCell align="right">{route.dest}</TableCell>
+            <TableCell>{getAirlineById(route.airline)}</TableCell>
+            <TableCell align="right">{getAirportByCode(route.src)}</TableCell>
+            <TableCell align="right">{getAirportByCode(route.dest)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -54,7 +56,7 @@ const App = () => (
     <p>
       Welcome to the app!
     </p>
-    <DataTable routes={data.routes}/>
+    <DataTable routes={routes}/>
   </section>
 </div>
 )
