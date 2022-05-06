@@ -3,10 +3,11 @@ import { useState } from 'react';
 import './App.css';
 import Table from "./components/Table"
 import Select from './components/SelectFilter';
+import Map from './components/Map';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import data from "./data"
-const { routes: allRoutes, getAirlineById, getAirportByCode } = data
+const { routes: allRoutes, getAirlineById, getAirportByCode, getLocationByCode } = data
 
 const useStyles = makeStyles(() => ({
   div: {
@@ -54,8 +55,6 @@ const App = () => {
     return unique
   }
 
-
-
   const reset = (e) => {
     e.preventDefault()
     setAirline("all")
@@ -68,6 +67,7 @@ const App = () => {
       <h1 className="title">Airline Routes</h1>
     </header>
     <section>
+      <Map routes={filtered} format={getLocationByCode}/>
       <div className={classes.div}>
         <Select 
           options={getUnique(allRoutes, 'airline')}
