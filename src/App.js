@@ -3,12 +3,22 @@ import { useState } from 'react';
 import './App.css';
 import Table from "./components/Table"
 import Select from './components/SelectFilter';
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import data from "./data"
 const { routes: allRoutes, getAirlineById, getAirportByCode } = data
+
+const useStyles = makeStyles(() => ({
+  div: {
+    marginTop: 10,
+  },
+}));
  
 const App = () => {
   const [airline, setAirline] = useState("all")
   const [airport, setAirport] = useState("all")
+
+  const classes = useStyles()
 
   const formatValue = (prop, val) => {
     if (prop === 'airline') {
@@ -42,19 +52,26 @@ const App = () => {
     return unique
   }
 
+  const reset = (e) => {
+    e.preventDefault()
+    setAirline("all")
+    setAirport("all")
+  }
+
   return (
     <div className="app">
     <header className="header">
       <h1 className="title">Airline Routes</h1>
     </header>
     <section>
-      <div>
+      <div className={classes.div}>
         <Select 
           options={getUnique('airline')}
           format={formatValue}
           allTitle="All Airlines"
           code="airline"
           setter={setAirline}
+          state={airline}
         />
         <Select
           options={getUnique('src')}
@@ -62,7 +79,11 @@ const App = () => {
           allTitle="All Airports"
           code="src"
           setter={setAirport}
+          state={airport}
         />
+        <Button variant="outlined" size="small" onClick={reset}>
+          Clear
+        </Button>
       </div>
       <Table columns={columns} rows={filtered} format={formatValue}/>
     </section>
