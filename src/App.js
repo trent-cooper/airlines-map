@@ -42,15 +42,19 @@ const App = () => {
     { name: "Destination Airport", property: "dest" },
   ];
 
-  const getUnique = (type) => {
+  const getUnique = (routes, type) => {
     const unique = []
-    allRoutes.forEach(route => {
+
+    routes.forEach(route => {
       if (unique.indexOf(route[type]) === -1) {
         unique.push(route[type])
       }
     })
+
     return unique
   }
+
+
 
   const reset = (e) => {
     e.preventDefault()
@@ -66,7 +70,8 @@ const App = () => {
     <section>
       <div className={classes.div}>
         <Select 
-          options={getUnique('airline')}
+          options={getUnique(allRoutes, 'airline')}
+          selected={getUnique(filtered, 'airline')}
           format={formatValue}
           allTitle="All Airlines"
           code="airline"
@@ -74,7 +79,8 @@ const App = () => {
           state={airline}
         />
         <Select
-          options={getUnique('src')}
+          options={getUnique(allRoutes, 'src')}
+          selected={getUnique(filtered, 'src')}
           format={formatValue}
           allTitle="All Airports"
           code="src"

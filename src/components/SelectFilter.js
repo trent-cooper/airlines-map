@@ -1,7 +1,7 @@
 import React from "react"
 import { NativeSelect, FormControl} from "@material-ui/core"
 
-const Select = ({ allTitle, options, setter, state, format, code }) => {
+const Select = ({ allTitle, options, selected, setter, state, format, code }) => {
 
   const selectHandler = (e) => {
     if (e.target.value === 'all') {
@@ -16,6 +16,17 @@ const Select = ({ allTitle, options, setter, state, format, code }) => {
     }
   }
 
+  const parseOptions = () => {
+    return options.map(optn => {
+      const disabled = !selected.includes(optn)
+      return (
+        <option key={optn} value={optn} disabled={disabled}>
+          {format(code, optn)}
+        </option>
+      )
+    })
+  }
+
   return (
     <FormControl variant="outlined" >
       <NativeSelect 
@@ -23,11 +34,7 @@ const Select = ({ allTitle, options, setter, state, format, code }) => {
         value={state}
       >
         <option key ="all" value="all">{allTitle}</option>
-        {options.map(airline => (
-          <option key={airline} value={airline}>
-            {format(code, airline)}
-          </option>
-        ))}
+        {parseOptions()}
       </NativeSelect>
     </FormControl>
   )
