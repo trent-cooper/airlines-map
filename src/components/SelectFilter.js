@@ -1,5 +1,5 @@
 import React from "react"
-import { NativeSelect, FormControl, InputLabel} from "@material-ui/core"
+import { NativeSelect, FormControl} from "@material-ui/core"
 import { makeStyles } from "@material-ui/styles"
 
 const useStyles = makeStyles(() => ({
@@ -9,36 +9,37 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SelectFilter = ({ allRoutes, airlines, setRoutes, format }) => {
+const Select = ({ allTitle, options, setter, format, code }) => {
 
   const classes = useStyles()
 
   const selectHandler = (e) => {
     if (e.target.value === 'all') {
-      return setRoutes(allRoutes)
+      setter("all")
+    } else {
+      const id = e.target.value
+      if (code === "airline") {
+        setter(+id)
+      } else {
+        setter(id)
+      }
     }
-
-    const airlineId = +e.target.value
-    setRoutes(allRoutes.filter(route => route.airline === airlineId))
   }
 
   return (
-    <div>
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel>Airline</InputLabel>
-        <NativeSelect 
-          onChange={selectHandler}
-        >
-          <option value="all">All Airlines</option>
-          {airlines.map(airline => (
-            <option key={airline} value={airline}>
-              {format('airline', airline)}
-            </option>
-          ))}
-        </NativeSelect>
-      </FormControl>
-    </div>
+    <FormControl variant="outlined" className={classes.formControl}>
+      <NativeSelect 
+        onChange={selectHandler}
+      >
+        <option key ="all" value="all">{allTitle}</option>
+        {options.map(airline => (
+          <option key={airline} value={airline}>
+            {format(code, airline)}
+          </option>
+        ))}
+      </NativeSelect>
+    </FormControl>
   )
 }
 
-export default SelectFilter
+export default Select
